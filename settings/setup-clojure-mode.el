@@ -33,6 +33,10 @@
 (define-key clojure-mode-map [remap paredit-forward] 'clojure-forward-logical-sexp)
 (define-key clojure-mode-map [remap paredit-backward] 'clojure-backward-logical-sexp)
 
+;; Don't tread the last one
+
+(setq clojure-thread-all-but-last t)
+
 ;; Treat top level forms in comment forms as top level forms
 
 (setq clojure-toplevel-inside-comment-form t)

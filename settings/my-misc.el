@@ -49,5 +49,21 @@
 ;; A bit of misc cargo culting in misc.el
 (setq xterm-mouse-mode t)
 
+;; Some stupid multiple cursors things
+(defun mc--cursor-region-contents ()
+  (let (entries)
+    (mc/for-each-cursor-ordered
+     (setq entries (cons (buffer-substring-no-properties (overlay-get cursor 'point)
+                                                         (overlay-get cursor 'mark))
+                         entries)))
+    (reverse entries)))
+
+(defun mc/eval-with-cursor-regions ()
+  (interactive)
+  (eval-expression
+   (read--expression "Eval: "
+                     (concat "(" (s-join " " (mc--cursor-region-contents)) ")"))))
+
+(define-key mc/keymap (kbd "H-:") 'mc/eval-with-cursor-regions)
 
 (provide 'my-misc)

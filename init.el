@@ -72,6 +72,7 @@
      cider
      clojure-mode
      clojure-mode-extra-font-locking
+     consult
      css-eldoc
      diff-hl
      deadgrep
@@ -98,9 +99,11 @@
      inflections
      kaocha-runner
      magit
+     marginalia
      markdown-mode
      move-text
      nodejs-repl
+     orderless
      paredit
      perspective
      prodigy
@@ -111,12 +114,52 @@
      simple-httpd
      smartparens
      string-edit-at-point
+     use-package
+     vertico
      visual-regexp
      wgrep
      whitespace-cleanup-mode
      yasnippet
      zprint-mode
      )))
+
+(require 'use-package)
+
+(use-package vertico
+  :init
+  (vertico-mode)
+
+  (setq minibuffer-prompt-properties
+        '(read-only t cursor-intangible t face minibuffer-prompt))
+  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+
+  (setq read-extended-command-predicate
+        #'command-completion-default-include-p)
+
+  (setq enable-recursive-minibuffers t)
+
+  (require 'vertico-directory)
+  (keymap-set vertico-map "RET" #'vertico-directory-enter)
+  (keymap-set vertico-map "DEL" #'vertico-directory-delete-char)
+  (keymap-set vertico-map "M-DEL" #'vertico-directory-delete-word)
+  (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy))
+
+(use-package orderless
+  :init
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (setq orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch)
+  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
+  (setq completion-styles '(initials orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion)))))
+
+(use-package marginalia
+  :custom
+  (marginalia-max-relative-age 0)
+  (marginalia-align 'right)
+  :init
+  (marginalia-mode)
+  (keymap-set minibuffer-local-map "M-A" #'marginalia-cycle))
 
 (condition-case nil
     (init--install-packages)
@@ -140,7 +183,6 @@
 ;;(setq guide-key/popup-window-position 'bottom)
 
 ;; Setup extensions
-(eval-after-load 'ido '(require 'setup-ido))
 (eval-after-load 'org '(require 'setup-org))
 (eval-after-load 'dired '(require 'setup-dired))
 (eval-after-load 'magit '(require 'setup-magit))
@@ -256,4 +298,3 @@
 ;; Conclude init by setting up specifics for the current user
 (when (file-exists-p user-settings-dir)
   (mapc 'load (directory-files user-settings-dir nil "^[^#].*el$")))
-

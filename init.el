@@ -113,6 +113,7 @@
      ripgrep
      simple-httpd
      smartparens
+     sqlite3
      string-edit-at-point
      use-package
      vertico

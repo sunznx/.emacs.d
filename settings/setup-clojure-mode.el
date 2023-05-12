@@ -481,9 +481,13 @@ The type of the REPL is inferred from the mode of current buffer.  With a
 prefix arg SET-NAMESPACE sets the namespace in the REPL buffer to that of
 the namespace in the Clojure source buffer"
   (interactive "P")
-  (cider--switch-to-repl-buffer
-   (cider-current-repl "any" t)
-   set-namespace))
+  (or (ignore-errors
+        (cider--switch-to-repl-buffer
+         (cider-current-repl "any" t)
+         set-namespace))
+      (cider--switch-to-repl-buffer
+       (concat "*cider-repl " (car (sesman-current-session 'CIDER)) "(clj)*")
+       set-namespace)))
 
 (define-key clojure-mode-map (kbd "C-c z") 'cider-switch-to-any-repl-buffer)
 

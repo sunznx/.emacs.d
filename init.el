@@ -69,6 +69,7 @@
 (defun init--install-packages ()
   (packages-install
    '(
+     avy
      cider
      clojure-mode
      clojure-mode-extra-font-locking

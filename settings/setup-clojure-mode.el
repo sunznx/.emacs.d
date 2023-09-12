@@ -1,3 +1,5 @@
+;;; clojure-mode.el --- Major mode for Clojure code -*- lexical-binding: t; -*-
+
 (require 'clojure-mode)
 (require 'clojure-mode-extra-font-locking)
 
@@ -53,13 +55,14 @@
 ;; allowing you to navigate to Java sources and javadocs in your Clojure
 ;; projects.
 
-(setq cider-enrich-classpath t)
+(setq cider-enrich-classpath nil) ;; don't do it, it's a trap! At least if you're using Datomic.
 
 ;; kaocha
 
 (require 'kaocha-runner)
 
 (defun kaocha-runner-run-relevant-tests ()
+  (interactive)
   (when (cljr--project-depends-on-p "kaocha")
     (if (clj--is-test? (buffer-file-name))
         (kaocha-runner--run-tests
@@ -78,6 +81,8 @@
              nil t original-buffer)))))))
 
 (add-hook 'cider-file-loaded-hook #'kaocha-runner-run-relevant-tests)
+
+(define-key clojure-mode-map (kbd "<f5>") 'kaocha-runner-run-relevant-tests)
 
 (define-key clojure-mode-map (kbd "C-c k t") 'kaocha-runner-run-test-at-point)
 (define-key clojure-mode-map (kbd "C-c k r") 'kaocha-runner-run-tests)
@@ -162,69 +167,9 @@
 ;; indent [quiescent.dom :as d] specially
 
 (define-clojure-indent
-  (forcat 1)
-  (d/a 1)
-  (d/button 1)
-  (d/div 1)
-  (d/form 1)
-  (d/fieldset 1)
-  (d/h1 1)
-  (d/h2 1)
-  (d/h3 1)
-  (d/h4 1)
-  (d/h5 1)
-  (d/hr 1)
-  (d/img 1)
-  (d/label 1)
-  (d/li 1)
-  (d/option 1)
-  (d/p 1)
-  (d/clipPath 1)
-  (d/pre 1)
-  (d/select 1)
-  (d/small 1)
-  (d/span 1)
-  (d/strong 1)
-  (d/ul 1)
-  (d/svg 1)
-  (d/g 1)
-  (d/table 1)
-  (d/tbody 1)
-  (d/thead 1)
-  (d/tr 1)
-  (d/td 1)
-  (d/linearGradient 1)
-  (dd/measure! 2)
-  (dog/measure! 2)
-  (e/prose 1)
-  (e/container 1)
-  (e/hero-container 1)
-  (e/value 1)
-  (e/section 1)
-  (e/section-prose 1)
-  (e/section-header 1)
-  (e/page 1)
-  (e/instructions 1)
-  (e/setup-header 1)
-  (l/padded 1)
-  (l/lightly-padded 1)
-  (l/padded-all 1)
-  (l/bubble-grid 1)
-  (l/slider 1)
-  (l/bottom-fixed 1)
-  (l/centered 1)
-  (c/box 1)
-  (c/square 1)
-  (c/box-with-subsection 1)
-  (c/embossed-section 1)
-  (c/embossed 1)
-  (c/group 1)
-  (c/list 1)
-  (c/split 1)
-  (e/Page 1)
-
-  (add-watch 2)
-  (async 1))
+ (forcat 1)
+ (add-watch 2)
+ (async 1))
 
 ;; Don't warn me about the dangers of clj-refactor, fire the missiles!
 (setq cljr-warn-on-eval nil)
@@ -278,11 +223,8 @@
     (while (search-forward "(expect-focused" nil t)
       (delete-char -8))))
 
-(define-key clj-refactor-map
-  (cljr--key-pairs-with-modifier "C-s-" "xf") 'my-toggle-expect-focused)
-
-(define-key clj-refactor-map
-  (cljr--key-pairs-with-modifier "C-s-" "xr") 'my-remove-all-focused)
+(define-key clj-refactor-map (cljr--key-pairs-with-modifier "C-s-" "xf") 'my-toggle-expect-focused)
+(define-key clj-refactor-map (cljr--key-pairs-with-modifier "C-s-" "xr") 'my-remove-all-focused)
 
 ;; Focus tests
 
@@ -303,10 +245,10 @@
       (delete-region (match-beginning 0) (match-end 0)))))
 
 (define-key clj-refactor-map
-  (cljr--key-pairs-with-modifier "C-s-" "ft") 'my-toggle-focused-test)
+            (cljr--key-pairs-with-modifier "C-s-" "ft") 'my-toggle-focused-test)
 
 (define-key clj-refactor-map
-  (cljr--key-pairs-with-modifier "C-s-" "bt") 'my-blur-all-tests)
+            (cljr--key-pairs-with-modifier "C-s-" "bt") 'my-blur-all-tests)
 
 ;; Cycle between () {} []
 
@@ -351,7 +293,6 @@
 (define-key clojure-mode-map (kbd "C-x C-e") 'nrepl-warn-when-not-connected)
 (define-key clojure-mode-map (kbd "C-c C-e") 'nrepl-warn-when-not-connected)
 (define-key clojure-mode-map (kbd "C-c C-l") 'nrepl-warn-when-not-connected)
-(define-key clojure-mode-map (kbd "C-c C-r") 'nrepl-warn-when-not-connected)
 (define-key clojure-mode-map (kbd "C-c C-z") 'nrepl-warn-when-not-connected)
 (define-key clojure-mode-map (kbd "C-c C-k") 'nrepl-warn-when-not-connected)
 (define-key clojure-mode-map (kbd "C-c C-n") 'nrepl-warn-when-not-connected)
@@ -579,5 +520,36 @@ Default value is `clojure-thread-all-but-last'."
     (while (save-excursion (clojure-thread)))
     (when (my/clojure-should-unwind-once?)
       (clojure-unwind))))
+
+(font-lock-add-keywords 'clojure-mode
+                        `((,(concat "(\\(?:" clojure--sym-regexp "/\\)?"
+                                    "\\(\\(?:.+/\\)?def[^a ][^ ]*\\)\\>")
+                           1 font-lock-keyword-face)))
+
+(font-lock-add-keywords 'clojurescript-mode
+                        `((,(concat "(\\(?:" clojure--sym-regexp "/\\)?"
+                                    "\\(\\(?:.+/\\)?def[^a ][^ ]*\\)\\>")
+                           1 font-lock-keyword-face)))
+
+;; Jet
+
+(require 'jet)
+
+(defun copy-edn-as-json ()
+  (interactive)
+  (jet-to-clipboard
+   (jet--thing-at-point)
+   '("--from=edn" "--to=json"))
+  (deactivate-mark))
+
+(defun copy-json-as-edn ()
+  (interactive)
+  (jet-to-clipboard
+   (jet--thing-at-point)
+   '("--from=json" "--to=edn" "--keywordize"))
+  (deactivate-mark))
+
+(global-set-key (kbd "C-c j e j") 'copy-edn-as-json)
+(global-set-key (kbd "C-c j j e") 'copy-json-as-edn)
 
 (provide 'setup-clojure-mode)

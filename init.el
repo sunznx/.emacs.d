@@ -97,6 +97,7 @@
      ido-completing-read+
      ido-vertical-mode
      inflections
+     jet
      kaocha-runner
      magit
      marginalia

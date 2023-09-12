@@ -22,7 +22,7 @@
   (rgrep regexp files dir confirm)
   (switch-to-buffer "*grep*")
   (delete-other-windows)
-  (beginning-of-buffer))
+  (goto-char (point-min)))
 
 (defun rgrep-quit-window ()
   (interactive)
@@ -61,7 +61,7 @@
     (grep command)
     (switch-to-buffer "*grep*")
     (delete-other-windows)
-    (beginning-of-buffer)))
+    (goto-char (point-min))))
 
 (eval-after-load "grep"
   '(progn

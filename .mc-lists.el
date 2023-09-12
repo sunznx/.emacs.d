@@ -30,6 +30,7 @@
         change-number-at-point
         change-outer
         cider-eval-last-sexp
+        cider-eval-last-sexp-and-replace
         clj-goto-toplevel
         clj-hippie-expand-no-case-fold
         cljr-cycle-coll
@@ -39,6 +40,8 @@
         cljr-thread-first-all
         cljr-unwind
         clojure-backward-logical-sexp
+        clojure-convert-collection-to-map
+        clojure-convert-collection-to-vector
         clojure-forward-logical-sexp
         clojure-mode-paredit-wrap-round
         clojure-mode-paredit-wrap-round-from-behind
@@ -51,6 +54,7 @@
         cua-replace-region
         cua-set-mark
         cycle-spacing
+        default-indent-new-line
         delete-blank-lines
         delete-indentation
         dired-back-to-start-of-files
@@ -108,9 +112,11 @@
         open-line-and-indent
         open-line-below
         org-beginning-of-line
+        org-cycle
         org-delete-backward-char
         org-delete-char
         org-end-of-line
+        org-kill-line
         org-metaleft
         org-metaright
         org-return-indent
@@ -120,6 +126,8 @@
         org-shiftright
         org-yank
         orgtbl-self-insert-command
+        paredit-C-j
+        paredit-RET
         paredit-backslash
         paredit-backward
         paredit-backward-barf-sexp
@@ -130,6 +138,8 @@
         paredit-close-round
         paredit-close-square
         paredit-comment-dwim
+        paredit-convolute-sexp
+        paredit-delete-char
         paredit-doublequote
         paredit-forward
         paredit-forward-barf-sexp
@@ -191,6 +201,7 @@
         transpose-params
         transpose-sexps
         transpose-words
+        wdired--self-insert
         wdired-capitalize-word
         wdired-downcase-word
         wdired-next-line
@@ -206,12 +217,16 @@
 
 (setq mc/cmds-to-run-once
       '(
+        adv-escape
         adv-insert-new-number
         beginning-of-buffer
         cider-eval-ns-form
+        cider-load-buffer
         cider-macroexpand-1
         cleanup-buffer
         clj-jump-to-other-file
+        cljr-introduce-let
+        cljr-move-to-let
         clojure-mode-indent-top-level-form
         create-scratch-buffer
         custom-persp/emacs
@@ -236,8 +251,10 @@
         make-frame
         mc/add-cursor-on-click
         mc/add-cursors-to-all-matches
+        mc/eval-with-cursor-regions
         move-past-close-and-reindent
         multiple-cursors-mode
+        next-error-no-select
         ns-prev-frame
         persp-switch
         shell

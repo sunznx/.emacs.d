@@ -4,6 +4,7 @@
 (setq mac-option-modifier 'super)
 (setq mac-command-modifier 'meta)
 (setq ns-function-modifier 'hyper)
+(setq mac-right-option-modifier nil)
 
 ;; Norwegian mac-keyboard alt-keys)
 (define-key key-translation-map (kbd "s-8") (kbd "["))
@@ -26,8 +27,8 @@
 
 ;; mac friendly font
 (when window-system
-  (setq magnars/default-font "-apple-Monaco-medium-normal-normal-*-15-*-*-*-m-0-iso10646-1")
-  (setq magnars/presentation-font "-apple-Monaco-medium-normal-normal-*-21-*-*-*-m-0-iso10646-1")
+  (defvar magnars/default-font "-apple-Monaco-medium-normal-normal-*-15-*-*-*-m-0-iso10646-1")
+  (defvar magnars/presentation-font "-apple-Monaco-medium-normal-normal-*-21-*-*-*-m-0-iso10646-1")
   (set-face-attribute 'default nil :font magnars/default-font))
 
 ;; keybinding to toggle full screen mode

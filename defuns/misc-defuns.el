@@ -26,11 +26,6 @@
         (call-interactively 'goto-line))
     (display-line-numbers-mode -1)))
 
-(defun goto-last-modification ()
-  (interactive)
-  (undo-tree-undo)
-  (undo-tree-redo))
-
 (defun open-line-and-indent ()
   (interactive)
   (newline-and-indent)
@@ -152,10 +147,6 @@
     (insert "<a href=\"")
     (yank)
     (insert (concat "\">" text "</a>"))))
-
-(defun buffer-to-html (buffer)
-  (with-current-buffer (htmlize-buffer buffer)
-    (buffer-string)))
 
 (defun sudo-edit (&optional arg)
   (interactive "p")

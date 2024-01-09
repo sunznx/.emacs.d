@@ -26,9 +26,7 @@
         c-electric-semi&comma
         c-electric-slash
         c-electric-star
-        change-inner
         change-number-at-point
-        change-outer
         cider-eval-last-sexp
         cider-eval-last-sexp-and-replace
         clj-goto-toplevel
@@ -43,9 +41,6 @@
         clojure-convert-collection-to-map
         clojure-convert-collection-to-vector
         clojure-forward-logical-sexp
-        clojure-mode-paredit-wrap-round
-        clojure-mode-paredit-wrap-round-from-behind
-        clojure-mode-paredit-wrap-square
         clojure-thread-first-all
         clojure-toggle-keyword-string
         clojure-unwind-all
@@ -77,17 +72,6 @@
         indent-for-tab-command
         insert-parentheses
         insert-postfix-whitespace
-        js2-beginning-of-line
-        js2-end-of-line
-        js2-insert-and-indent
-        js2-tab-properly
-        js2r-inline-var
-        js2r-kill
-        js2r-move-line-up
-        js2r-split-string
-        js2r-var-to-this
-        jump-char-forward
-        jump-char-process-char
         keyboard-escape-quit
         kill-and-retry-line
         kill-region-or-backward-word
@@ -126,45 +110,6 @@
         org-shiftright
         org-yank
         orgtbl-self-insert-command
-        paredit-C-j
-        paredit-RET
-        paredit-backslash
-        paredit-backward
-        paredit-backward-barf-sexp
-        paredit-backward-down
-        paredit-backward-slurp-sexp
-        paredit-backward-up
-        paredit-close-curly
-        paredit-close-round
-        paredit-close-square
-        paredit-comment-dwim
-        paredit-convolute-sexp
-        paredit-delete-char
-        paredit-doublequote
-        paredit-forward
-        paredit-forward-barf-sexp
-        paredit-forward-delete
-        paredit-forward-down
-        paredit-forward-kill-word
-        paredit-forward-slurp-sexp
-        paredit-forward-up
-        paredit-join-sexps
-        paredit-kill
-        paredit-kill-region-or-backward-word
-        paredit-meta-doublequote
-        paredit-newline
-        paredit-open-curly
-        paredit-open-round
-        paredit-open-square
-        paredit-raise-sexp
-        paredit-reindent-defun
-        paredit-semicolon
-        paredit-splice-sexp
-        paredit-splice-sexp-killing-backward
-        paredit-split-sexp
-        paredit-wrap-round
-        paredit-wrap-round-from-behind
-        paredit-wrap-square
         quoted-insert
         reverse-region
         save-region-or-current-line
@@ -181,19 +126,6 @@
         subtract-number-at-point
         subword-left
         subword-right
-        tagedit-forward-slurp-tag
-        tagedit-insert-dot
-        tagedit-insert-equal
-        tagedit-insert-exclamation-mark
-        tagedit-insert-gt
-        tagedit-insert-hash
-        tagedit-insert-lt
-        tagedit-insert-quote
-        tagedit-kill
-        tagedit-kill-attribute
-        tagedit-maybe-insert-slash
-        tagedit-raise-tag
-        tagedit-splice-tag
         tern-ac-dot-complete
         toggle-assert-refute
         toggle-quotes
@@ -241,8 +173,6 @@
         goto-line-with-feedback
         handle-switch-frame
         ido-switch-buffer
-        js2r-extract-var
-        js2r-rename-var
         jump-between-source-and-test-files
         kill-this-buffer
         kmacro-end-or-call-macro

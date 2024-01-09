@@ -1,10 +1,10 @@
 (require 'dash)
 
 ;; change command to meta, and ignore option to use weird Norwegian keyboard
-(setq mac-option-modifier 'super)
-(setq mac-command-modifier 'meta)
-(setq ns-function-modifier 'hyper)
-(setq mac-right-option-modifier nil)
+;; (setq mac-option-modifier 'super)
+;; (setq mac-command-modifier 'meta)
+;; (setq ns-function-modifier 'hyper)
+;; (setq mac-right-option-modifier nil)
 
 ;; Norwegian mac-keyboard alt-keys)
 (define-key key-translation-map (kbd "s-8") (kbd "["))

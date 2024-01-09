@@ -65,123 +65,6 @@
 ;; Setup packages
 (require 'setup-package)
 
-;; Install extensions if they're missing
-(defun init--install-packages ()
-  (packages-install
-   '(
-     avy
-     cider
-     clojure-mode
-     clojure-mode-extra-font-locking
-     consult
-     css-eldoc
-     diff-hl
-     deadgrep
-     dockerfile-mode
-     edn
-     elisp-slime-nav
-     f
-     fill-column-indicator
-     flx
-     flx-ido
-     flycheck
-     flycheck-pos-tip
-     flycheck-joker
-     forge
-     gist
-     groovy-mode
-;;     guide-key
-     highlight-escape-sequences
-     htmlize
-     hydra
-     ido-at-point
-     ido-completing-read+
-     ido-vertical-mode
-     inflections
-     jet
-     kaocha-runner
-     magit
-     marginalia
-     markdown-mode
-     move-text
-     nodejs-repl
-     orderless
-     paredit
-     perspective
-     prodigy
-     projectile
-     request
-     restclient
-     ripgrep
-     simple-httpd
-     smartparens
-     sqlite3
-     string-edit-at-point
-     use-package
-     vertico
-     visual-regexp
-     wgrep
-     whitespace-cleanup-mode
-     yasnippet
-     zprint-mode
-     )))
-
-(require 'use-package)
-
-(use-package vertico
-  :init
-  (vertico-mode)
-
-  (setq minibuffer-prompt-properties
-        '(read-only t cursor-intangible t face minibuffer-prompt))
-  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
-
-  (setq read-extended-command-predicate
-        #'command-completion-default-include-p)
-
-  (setq enable-recursive-minibuffers t)
-
-  (require 'vertico-directory)
-  (keymap-set vertico-map "RET" #'vertico-directory-enter)
-  (keymap-set vertico-map "DEL" #'vertico-directory-delete-char)
-  (keymap-set vertico-map "M-DEL" #'vertico-directory-delete-word)
-  (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
-
-  ;; Use `consult-completion-in-region' if Vertico is enabled.
-  ;; Otherwise use the default `completion--in-region' function.
-  (setq completion-in-region-function
-        (lambda (&rest args)
-          (apply (if vertico-mode
-                     #'consult-completion-in-region
-                   #'completion--in-region)
-                 args))))
-
-(use-package orderless
-  :init
-  ;; Configure a custom style dispatcher (see the Consult wiki)
-  ;; (setq orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch)
-  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
-  (setq completion-styles '(orderless basic)
-        orderless-matching-styles '(orderless-initialism
-                                    orderless-literal
-                                    orderless-regexp)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion)))))
-
-(use-package marginalia
-  :custom
-  (marginalia-max-relative-age 0)
-  (marginalia-align 'right)
-  :init
-  (marginalia-mode)
-  (keymap-set minibuffer-local-map "M-A" #'marginalia-cycle))
-
-(condition-case nil
-    (init--install-packages)
-  (error
-   (package-refresh-contents)
-   (init--install-packages)))
-
 ;; Lets start with a smattering of sanity
 (require 'sane-defaults)
 
@@ -190,25 +73,14 @@
   (require-package 'exec-path-from-shell)
   (exec-path-from-shell-initialize))
 
-;;;; guide-key
-;;(require 'guide-key)
-;;(setq guide-key/guide-key-sequence '("C-x r" "C-x 4" "C-x v" "C-x 8" "C-x +"))
-;;(guide-key-mode 1)
-;;(setq guide-key/recursive-key-sequence-flag t)
-;;(setq guide-key/popup-window-position 'bottom)
-
 ;; Setup extensions
 (eval-after-load 'org '(require 'setup-org))
 (eval-after-load 'dired '(require 'setup-dired))
-(eval-after-load 'magit '(require 'setup-magit))
 (eval-after-load 'shell '(require 'setup-shell))
 (require 'setup-rgrep)
 (require 'setup-hippie)
 (require 'setup-yasnippet)
-(require 'setup-perspective)
 (require 'setup-ffip)
-(require 'setup-html-mode)
-(require 'setup-paredit)
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
@@ -225,17 +97,13 @@
           restclient-mode-hook
           js-mode-hook
           java-mode
-          ruby-mode
           markdown-mode
-          groovy-mode
-          scala-mode)
+          go-mode-hook)
   (add-hook it 'turn-on-smartparens-mode))
 
 ;; Language specific setup files
-(eval-after-load 'js2-mode '(require 'setup-js2-mode))
-(eval-after-load 'ruby-mode '(require 'setup-ruby-mode))
-(eval-after-load 'clojure-mode '(require 'setup-clojure-mode))
 (eval-after-load 'markdown-mode '(require 'setup-markdown-mode))
+(eval-after-load 'go-mode '(require 'setup-go-mode))
 
 ;; Load stuff on demand
 (autoload 'skewer-start "setup-skewer" nil t)
@@ -264,10 +132,6 @@
 (require 'expand-region)
 (require 'multiple-cursors)
 (require 'delsel)
-(require 'jump-char)
-(require 'eproject)
-(require 'smart-forward)
-(require 'change-inner)
 (require 'multifiles)
 
 ;; Don't use expand-region fast keys
@@ -280,10 +144,6 @@
 (require 'fill-column-indicator)
 (setq fci-rule-color "#111122")
 
-;; Browse kill ring
-(require 'browse-kill-ring)
-(setq browse-kill-ring-quit-action 'save-and-restore)
-
 ;; Smart M-x is smart
 (require 'smex)
 (smex-initialize)
@@ -292,7 +152,6 @@
 (require 'key-bindings)
 
 ;; Misc
-(require 'project-archetypes)
 (require 'my-misc)
 (when is-mac (require 'mac))
 

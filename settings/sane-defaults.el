@@ -42,9 +42,6 @@
 ;; Remove text in active region if inserting text
 (delete-selection-mode 1)
 
-;; Don't highlight matches with jump-char - it's distracting
-(setq jump-char-lazy-highlight-face nil)
-
 ;; Always display line and column numbers
 (setq line-number-mode t)
 (setq column-number-mode t)
@@ -54,11 +51,11 @@
 
 ;; Save a list of recent files visited. (open recent file with C-x f)
 (recentf-mode 1)
-(setq recentf-max-saved-items 100) ;; just 20 is too recent
+(setq recentf-max-saved-items 10000) ;; just 20 is too recent
 
 ;; Save minibuffer history
 (savehist-mode 1)
-(setq history-length 1000)
+(setq history-length 10000)
 
 ;; Undo/redo window configuration with C-c <left>/<right>
 (winner-mode 1)
@@ -89,11 +86,6 @@
 
 ;; Fontify org-mode code blocks
 (setq org-src-fontify-natively t)
-
-;; Represent undo-history as an actual tree (visualize with C-x u)
-(setq undo-tree-mode-lighter "")
-(require 'undo-tree)
-(global-undo-tree-mode)
 
 ;; Sentences do not need double spaces to end. Period.
 (set-default 'sentence-end-double-space nil)
